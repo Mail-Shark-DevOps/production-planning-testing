@@ -1336,8 +1336,9 @@ function printSettings(sheet) {
                 //takes just the "UA-code" from the Version No column and returns it in an array by itself ['UA-12345']. [0] grabs this lone
                 //item then we match it with another regex expression to isolate just the digits, which is returned in an array as well ['12345']
                 //[0] grabs this lone item as well
-                let versionRef = row[masterHeader[0].indexOf("Version No")];
+                let versionRef = row[masterHeader[0].indexOf("Version No")].trim();
                 if (versionRef) {
+                    //console.log("I'm matching a VersionRef!");
                     versionRef = versionRef.match(uaRegex)[0].match(/\d+/g)[0];
                 };
                 let notesRef = row[masterHeader[0].indexOf("Notes")];
