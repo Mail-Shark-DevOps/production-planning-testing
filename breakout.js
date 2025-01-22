@@ -1341,10 +1341,19 @@ function printSettings(sheet) {
                     //console.log("I'm matching a VersionRef!");
                     versionRef = versionRef.match(uaRegex)[0].match(/\d+/g)[0];
                 };
-                let notesRef = row[masterHeader[0].indexOf("Notes")];
-                if (notesRef) {
-                    notesRef = notesRef.match(uaRegex)[0].match(/\d+/g)[0]; //same as Version No but with Notes
+
+                let notesRef = row[masterHeader[0].indexOf("Notes")].trim();
+                console.log(`notesRef is here: ${notesRef}`);
+                try {
+                    if (notesRef) {
+                        notesRef = notesRef.match(uaRegex)[0].match(/\d+/g)[0]; //same as Version No but with Notes
+                    };
+                } catch {
+                    console.log(`The row with the UJID of ${row[masterHeader[0].indexOf("UJID")]} is having problems with the MA/UA sorting function.
+                    This is what is currently shown in the Notes column: ${row[masterHeader[0].indexOf("Notes")]}
+                    And this is what is currently shown in the Version No column: ${row[masterHeader[0].indexOf("Version No")]}`);
                 };
+          
                 let codeColumn = masterHeader[0].indexOf("Code");
 
                 if (!notesRef && !versionRef) {
