@@ -1328,60 +1328,69 @@ function printSettings(sheet) {
             let uaRows = currentSheet.filter(row => row[0]=="UA");
 
             
-            uaRows.forEach(row => {         
+             uaRows.forEach(row => {    
 
-                //this finds just the "UA-12345" in a string of text. For a more detailed description, paste it into chatGPT for explanation
-                let uaRegex = /UA[-\s]*\d{4,}/gi;
+                 try {
 
-                //takes just the "UA-code" from the Version No column and returns it in an array by itself ['UA-12345']. [0] grabs this lone
-                //item then we match it with another regex expression to isolate just the digits, which is returned in an array as well ['12345']
-                //[0] grabs this lone item as well
-                let versionRef = row[masterHeader[0].indexOf("Version No")].trim();
-                if (versionRef) {
-                    //console.log("I'm matching a VersionRef!");
-                    versionRef = versionRef.match(uaRegex)[0].match(/\d+/g)[0];
-                };
+                     //this finds just the "UA-12345" in a string of text. For a more detailed description, paste it into chatGPT for explanation
+                     let uaRegex = /UA[-\s]*\d{4,}/gi;
 
-                let notesRef = row[masterHeader[0].indexOf("Notes")].trim();
-                console.log(`notesRef is here: ${notesRef}`);
-                try {
-                    if (notesRef) {
-                        notesRef = notesRef.match(uaRegex)[0].match(/\d+/g)[0]; //same as Version No but with Notes
-                    };
-                } catch {
-                    console.log(`The row with the UJID of ${row[masterHeader[0].indexOf("UJID")]} is having problems with the MA/UA sorting function.
+                     //takes just the "UA-code" from the Version No column and returns it in an array by itself ['UA-12345']. [0] grabs this lone
+                     //item then we match it with another regex expression to isolate just the digits, which is returned in an array as well ['12345']
+                     //[0] grabs this lone item as well
+                     let versionRef = row[masterHeader[0].indexOf("Version No")].trim();
+                     if (versionRef) {
+                         //console.log("I'm matching a VersionRef!");
+                         versionRef = versionRef.match(uaRegex)[0].match(/\d+/g)[0];
+                     };
+
+                     let notesRef = row[masterHeader[0].indexOf("Notes")].trim();
+                     //console.log(`notesRef is here: ${notesRef}`);
+                     try {
+                         if (notesRef) {
+                             notesRef = notesRef.match(uaRegex)[0].match(/\d+/g)[0]; //same as Version No but with Notes
+                         };
+                     } catch {
+                         console.log(`The row with the UJID of ${row[masterHeader[0].indexOf("UJID")]} is having problems with the MA/UA sorting function.
                     This is what is currently shown in the Notes column: ${row[masterHeader[0].indexOf("Notes")]}
                     And this is what is currently shown in the Version No column: ${row[masterHeader[0].indexOf("Version No")]}`);
-                };
-          
-                let codeColumn = masterHeader[0].indexOf("Code");
+                     };
 
-                if (!notesRef && !versionRef) {
-                    console.log(`The row with the UJID of ${row[masterHeader[0].indexOf("UJID")]} is having problems with the MA/UA sorting function.
+                     let codeColumn = masterHeader[0].indexOf("Code");
+
+                     if (!notesRef && !versionRef) {
+                         console.log(`The row with the UJID of ${row[masterHeader[0].indexOf("UJID")]} is having problems with the MA/UA sorting function.
                     This is what is currently shown in the Notes column: ${row[masterHeader[0].indexOf("Notes")]}
                     And this is what is currently shown in the Version No column: ${row[masterHeader[0].indexOf("Version No")]}`);
-                } else {
+                     } else {
 
-                    if (versionRef && notesRef) {
-                        console.log(`MA/UA SORTING - Original Version No: ${row[masterHeader[0].indexOf("Version No")]} - Version No UA Code: ${versionRef} - Original Notes: ${row[masterHeader[0].indexOf("Notes")]} - Notes UA Code: ${notesRef}`);
-                    } else if (versionRef) {
-                        console.log(`MA/UA SORTING - Original: ${row[masterHeader[0].indexOf("Version No")]} - UA Code: ${versionRef}`);
-                    } else if (notesRef) {
-                        console.log(`MA/UA SORTING - Original: ${row[masterHeader[0].indexOf("Notes")]} - UA Code: ${notesRef}`);
-                    };
-                    // Remove this row from currentSheet
-                    currentSheet.splice(currentSheet.indexOf(row), 1);
+                         //if (versionRef && notesRef) {
+                         //    console.log(`MA/UA SORTING - Original Version No: ${row[masterHeader[0].indexOf("Version No")]} - Version No UA Code: ${versionRef} - Original Notes: ${row[masterHeader[0].indexOf("Notes")]} - Notes UA Code: ${notesRef}`);
+                         //} else if (versionRef) {
+                         //    console.log(`MA/UA SORTING - Original: ${row[masterHeader[0].indexOf("Version No")]} - UA Code: ${versionRef}`);
+                         //} else if (notesRef) {
+                         //    console.log(`MA/UA SORTING - Original: ${row[masterHeader[0].indexOf("Notes")]} - UA Code: ${notesRef}`);
+                         //};
+                         // Remove this row from currentSheet
+                         currentSheet.splice(currentSheet.indexOf(row), 1);
 
-                    let refRow = currentSheet.find(row => {
-                        let codeValue = row[codeColumn];
+                         let refRow = currentSheet.find(row => {
+                             let codeValue = row[codeColumn];
 
-                        return (codeValue === Number(versionRef) || codeValue.toString().includes(notesRef.toString()));
-                    });
+                             return (codeValue === Number(versionRef) || codeValue.toString().includes(notesRef.toString()));
+                         });
 
-                    let targetIndex = currentSheet.indexOf(refRow);
-                    // Add this row after the row at the target index
-                    currentSheet.splice(targetIndex + 1, 0, row); 
-                };
+                         let targetIndex = currentSheet.indexOf(refRow);
+                         // Add this row after the row at the target index
+                         currentSheet.splice(targetIndex + 1, 0, row);
+                     };
+
+                 } catch {
+                     console.log(`Something unexpected happened. Continuing on without breaking, but row will not be sorted properly within the breakout sheets`);
+                     console.log(`The row with the UJID of ${row[masterHeader[0].indexOf("UJID")]} is having problems with the MA/UA sorting function.
+                    This is what is currently shown in the Notes column: ${row[masterHeader[0].indexOf("Notes")]}
+                    And this is what is currently shown in the Version No column: ${row[masterHeader[0].indexOf("Version No")]}`);
+                 };
                 
             });
             //adds the line info from filteredData as rows to the end of the table
