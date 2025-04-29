@@ -418,7 +418,9 @@ import { breakout } from "./breakout.js";
                                                 let masterProduct = masterRowInfo["Product"].value; 
 
                                                 //returns the version ID of the current row in the master table
-                                                let masterVersion = masterRowInfo["Version No"].value; 
+                                        let masterVersion = masterRowInfo["Version No"].value; 
+
+                                        let masterLinkedArt = masterRowInfo["Linked Art"].value;
 
                                                 let masterOptions = masterRowInfo["Options"].value;
 
@@ -540,7 +542,7 @@ import { breakout } from "./breakout.js";
 
                                                         //if master sheet Version column for the current row has UA- in it, 
                                                         //overwrite the form number with "UA"
-                                                        } else if (masterVersion.includes("UA-") || masterNotes.includes("UA-")) {
+                                                        } else if (masterVersion.includes("UA-") || masterLinkedArt.includes("UA-") || masterNotes.includes("UA-")) {
 
                                                             globalVar.formToCarry = "UA";
 

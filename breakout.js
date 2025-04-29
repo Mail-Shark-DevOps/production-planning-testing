@@ -1335,33 +1335,41 @@ function printSettings(sheet) {
                      //this finds just the "UA-12345" in a string of text. For a more detailed description, paste it into chatGPT for explanation
                      let uaRegex = /UA[-\s]*\d{4,}/gi;
 
-                     //takes just the "UA-code" from the Version No column and returns it in an array by itself ['UA-12345']. [0] grabs this lone
-                     //item then we match it with another regex expression to isolate just the digits, which is returned in an array as well ['12345']
-                     //[0] grabs this lone item as well
+                     let linkedArtRef = row[masterHeader[0].indexOf("Linked Art")].trim();
                      let versionRef = row[masterHeader[0].indexOf("Version No")].trim();
-                     if (versionRef) {
-                         //console.log("I'm matching a VersionRef!");
-                         versionRef = versionRef.match(uaRegex)[0].match(/\d+/g)[0];
-                     };
-
                      let notesRef = row[masterHeader[0].indexOf("Notes")].trim();
-                     //console.log(`notesRef is here: ${notesRef}`);
-                     try {
-                         if (notesRef) {
-                             notesRef = notesRef.match(uaRegex)[0].match(/\d+/g)[0]; //same as Version No but with Notes
-                         };
-                     } catch {
-                         console.log(`The row with the UJID of ${row[masterHeader[0].indexOf("UJID")]} is having problems with the MA/UA sorting function.
-                    This is what is currently shown in the Notes column: ${row[masterHeader[0].indexOf("Notes")]}
-                    And this is what is currently shown in the Version No column: ${row[masterHeader[0].indexOf("Version No")]}`);
-                     };
-
                      let codeColumn = masterHeader[0].indexOf("Code");
 
-                     if (!notesRef && !versionRef) {
+                     if (linkedArtRef) {
+                         console.log("I'm matching a LinkedArtRef!");
+                         linkedArtRef = linkedArtRef.match(uaRegex)[0].match(/\d+/g)[0];
+                     } else {
+                         //takes just the "UA-code" from the Version No column and returns it in an array by itself ['UA-12345']. [0] grabs this lone
+                         //item then we match it with another regex expression to isolate just the digits, which is returned in an array as well ['12345']
+                         //[0] grabs this lone item as well
+                         if (versionRef) {
+                             //console.log("I'm matching a VersionRef!");
+                             versionRef = versionRef.match(uaRegex)[0].match(/\d+/g)[0];
+                         };
+
+                         //console.log(`notesRef is here: ${notesRef}`);
+                         try {
+                             if (notesRef) {
+                                 notesRef = notesRef.match(uaRegex)[0].match(/\d+/g)[0]; //same as Version No but with Notes
+                             };
+                         } catch {
+                             console.log(`The row with the UJID of ${row[masterHeader[0].indexOf("UJID")]} is having problems with the MA/UA sorting function.
+                    This is what is currently shown in the Notes column: ${row[masterHeader[0].indexOf("Notes")]}
+                    And this is what is currently shown in the Version No column: ${row[masterHeader[0].indexOf("Version No")]}
+                    And this is what is currently shown in the Linked Art column: ${row[masterHeader[0].indexOf("Linked Art")]}`);
+                         };
+                     };
+
+                     if (!notesRef && !versionRef && !linkedArtRef) {
                          console.log(`The row with the UJID of ${row[masterHeader[0].indexOf("UJID")]} is having problems with the MA/UA sorting function.
                     This is what is currently shown in the Notes column: ${row[masterHeader[0].indexOf("Notes")]}
-                    And this is what is currently shown in the Version No column: ${row[masterHeader[0].indexOf("Version No")]}`);
+                    And this is what is currently shown in the Version No column: ${row[masterHeader[0].indexOf("Version No")]}
+                    And this is what is currently shown in the Linked Art column: ${row[masterHeader[0].indexOf("Linked Art")]}`);
                      } else {
 
                          //if (versionRef && notesRef) {
@@ -1377,7 +1385,7 @@ function printSettings(sheet) {
                          let refRow = currentSheet.find(row => {
                              let codeValue = row[codeColumn];
 
-                             return (codeValue === Number(versionRef) || codeValue.toString().includes(notesRef.toString()));
+                             return (codeValue === Number(linkedArtRef) || codeValue === Number(versionRef) || codeValue.toString().includes(notesRef.toString()));
                          });
 
                          let targetIndex = currentSheet.indexOf(refRow);
@@ -1389,7 +1397,8 @@ function printSettings(sheet) {
                      console.log(`Something unexpected happened. Continuing on without breaking, but row will not be sorted properly within the breakout sheets`);
                      console.log(`The row with the UJID of ${row[masterHeader[0].indexOf("UJID")]} is having problems with the MA/UA sorting function.
                     This is what is currently shown in the Notes column: ${row[masterHeader[0].indexOf("Notes")]}
-                    And this is what is currently shown in the Version No column: ${row[masterHeader[0].indexOf("Version No")]}`);
+                    And this is what is currently shown in the Version No column: ${row[masterHeader[0].indexOf("Version No")]}
+                    And this is what is currently shown in the Linked Art column: ${row[masterHeader[0].indexOf("Linked Art")]}`);
                  };
                 
             });
