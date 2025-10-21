@@ -731,12 +731,16 @@ import { updateDataFromTable } from "./pressSchedulingInfo.js";
                                                         dayVal = "-";
                                                     } else {
                                                         dayVal = row[5];
-                                                    };
+                                            };
+
+                                            console.log('worksheet.name is:', worksheet.name);
 
                                                     //if on Digital E2R, autofill all presses with "Digital", otherwise auto-fill presses with 1.
                                                     //if a value already exists though, use that instead
                                                     if (worksheet.name == "DIGE2R") {
                                                         pressVal = "Digital";
+                                                    } else if (row[6] == "" && worksheet.name == "SilkE2R") {
+                                                        pressVal = "2";
                                                     } else if (row[6] == "") {
                                                         pressVal = "1";
                                                     } else {
