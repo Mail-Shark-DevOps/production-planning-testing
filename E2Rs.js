@@ -740,9 +740,9 @@ import { updateDataFromTable } from "./pressSchedulingInfo.js";
                                                     if (worksheet.name == "DIGE2R") {
                                                         pressVal = "Digital";
                                                     } else if (row[6] == "" && worksheet.name == "SilkE2R") {
-                                                        pressVal = "2";
-                                                    } else if (row[6] == "") {
                                                         pressVal = "1";
+                                                    } else if (row[6] == "") {
+                                                        pressVal = "2";
                                                     } else {
                                                         pressVal = row[6];
                                                     };

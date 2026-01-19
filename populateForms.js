@@ -907,7 +907,12 @@ import { breakout } from "./breakout.js";
 
                     //takes the string out from the array between the first and second space, then removes the ( character from said text. 
                     //Join combines this new blank record with the code to take it from an array to a value
-                    rowCode = spaceSplit.slice(1, 2)[0].split("(").join("");
+                    try {
+                        rowCode = spaceSplit.slice(1, 2)[0].split("(").join("");
+                    } catch (e) {
+                        console.log("Error:", e);
+                    };
+
                     // .replace("(", "")
                 };
 
