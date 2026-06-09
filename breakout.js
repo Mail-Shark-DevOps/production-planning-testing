@@ -328,8 +328,14 @@ var showTitle = false;
 
                                             for (let head of masterHeader[0]) {
                                                 let formsAddress = masterRowInfo[head].cellProps.value[0][0].address
-                                                let formsFill = masterRowInfo[head].cellProps.value[0][0].format.fill.color
-                                                let formsFontColor = masterRowInfo[head].cellProps.value[0][0].format.font.color
+                                                let formsFill;
+                                                if (masterRowInfo[head].cellProps.value[0][0].format.fill.color) {
+                                                    formsFill = masterRowInfo[head].cellProps.value[0][0].format.fill.color
+                                                };
+                                                let formsFontColor;
+                                                if (masterRowInfo[head].cellProps.value[0][0].format.font.color) {
+                                                    formsFontColor = masterRowInfo[head].cellProps.value[0][0].format.font.color
+                                                };
                                                 let formsFontBold = masterRowInfo[head].cellProps.value[0][0].format.font.bold
                                                 let formsFontItalic = masterRowInfo[head].cellProps.value[0][0].format.font.italic
                                                 let formsValue = masterRowInfo[head].value
@@ -1094,8 +1100,12 @@ var showTitle = false;
                         let unFormatted = thisRow.getCell(0, i).load("address"); // An Unformatted cell.
                         let currentCellProps = cell.cellProps.value[0][0];
 
-                        unFormatted.format.fill.color = currentCellProps.format.fill.color;
-                        unFormatted.format.font.color = currentCellProps.format.font.color;
+                        if (currentCellProps.format.fill.color) {
+                            unFormatted.format.fill.color = currentCellProps.format.fill.color;
+                        };
+                        if (currentCellProps.format.fill.color) {
+                            unFormatted.format.font.color = currentCellProps.format.font.color;
+                        };
                         unFormatted.format.font.bold = currentCellProps.format.font.bold;
                         unFormatted.format.font.italic = currentCellProps.format.font.italic;
                         unFormatted.format.wrapText = true;

@@ -1527,8 +1527,12 @@ async function moveRow(newTableName, changedRowValues, rowData) {
                 let unFormatted = thisRow.getCell(0, i).load("address"); // An Unformatted cell.
                 let currentCellProps = cell.cellProps.value[0][0];
 
-                unFormatted.format.fill.color = currentCellProps.format.fill.color;
-                unFormatted.format.font.color = currentCellProps.format.font.color;
+                if (currentCellProps.format.fill.color) {
+                    unFormatted.format.fill.color = currentCellProps.format.fill.color;
+                };
+                if (currentCellProps.format.font.color) {
+                    unFormatted.format.font.color = currentCellProps.format.font.color;
+                };
                 unFormatted.format.font.bold = currentCellProps.format.font.bold;
                 unFormatted.format.font.italic = currentCellProps.format.font.italic;
                 unFormatted.format.wrapText = true;
@@ -1604,8 +1608,12 @@ async function moveRow(newTableName, changedRowValues, rowData) {
                                     let unFormatted = thisRow.getCell(0, i).load("address"); // An Unformatted cell.
                                     let currentCellProps = cell.cellProps.value[0][0];
 
-                                    unFormatted.format.fill.color = currentCellProps.format.fill.color;
-                                    unFormatted.format.font.color = currentCellProps.format.font.color;
+                                    if (currentCellProps.format.fill.color) {
+                                        unFormatted.format.fill.color = currentCellProps.format.fill.color;
+                                    };
+                                    if (currentCellProps.format.font.color) {
+                                        unFormatted.format.font.color = currentCellProps.format.font.color;
+                                    };
                                     unFormatted.format.font.bold = currentCellProps.format.font.bold;
                                     unFormatted.format.font.italic = currentCellProps.format.font.italic;
                                     unFormatted.format.wrapText = true;
